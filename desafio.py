@@ -29,24 +29,31 @@ while True:
         
     elif opcao == "s":
         saque = int(input("Digite o valor para saque: "))
-        if numero_saques < LIMITE_SAQUES and saque <= limite and saldo >= saque and saque > 0:
+
+        excedeu_saldo = saque > saldo
+        
+        excedeu_limite = saque > limite
+
+        excedeu_saques = numero_saques >= LIMITE_SAQUES
+
+        if excedeu_saldo:
+            print("Saldo insuficiente.")
+
+        elif excedeu_limite:
+            print(f"O valor do saque ultrapassa o limite de R$ {limite:.2f} , tente novamente com um valor mais baixo.")
+        
+        elif excedeu_saques:
+            print("Limite de saques diários atingido. Tente novamente amanhã.")
+        
+        elif saque > 0:
             saldo -= saque
             numero_saques += 1
             extrato += f"Saque: R$ {saque:.2f}\n"
             print(f"O valor R$ {saque:.2f} foi sacado. Seu saldo atual é R$ {saldo:.2f}")
-
-        elif numero_saques >= LIMITE_SAQUES:
-            print("Limite de saques diários atingido. Tente novamente amanhã.")
-
-        elif saldo < saque:
-            print("Saldo insuficiente.")
-
-        elif saque > limite:
-            print(f"O valor do saque ultrapassa o limite de R$ {limite:.2f} , tente novamente com um valor mais baixo.")
         
         else:
             print("Erro: Valor inválido")
-
+        
     elif opcao == "e":
         print("\n=========== EXTRATO ===========")
         print("Não foram realizadas movimentações" if not extrato else extrato)
